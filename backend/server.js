@@ -12,14 +12,14 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"]
-  }
-});
 
-app.use(cors());
+// ========== CORS ঠিক করা ==========
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
@@ -63,6 +63,14 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 
 app.get('/', (req, res) => res.send('Server running!'));
+
+// ========== Socket.io ==========
+const io = socketIo(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 
 // ========== ডিভাইস ট্র্যাকিং ==========
 const deviceSessions = new Map();
