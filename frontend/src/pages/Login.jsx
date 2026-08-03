@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Phone, Send } from 'lucide-react';
 
+// ✅ Render Backend URL
+const API_URL = 'https://chatwave-backend-9de6.onrender.com';
+
 function Login() {
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
@@ -53,7 +56,7 @@ function Login() {
     setIsLoading(true);
     setMessage('');
     try {
-      await axios.post('http://localhost:5000/api/auth/send-otp', { phone });
+      await axios.post(`${API_URL}/api/auth/send-otp`, { phone });
       setMessage('✅ OTP sent successfully!');
       setMessageType('success');
       setStep('otp');
@@ -75,7 +78,7 @@ function Login() {
     setIsLoading(true);
     setMessage('');
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/verify-otp', {
+      const res = await axios.post(`${API_URL}/api/auth/verify-otp`, {
         phone,
         otp: otpString,
       });
